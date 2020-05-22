@@ -78,7 +78,7 @@ const engineer = () => {
       },
     ])
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       const newEngineer = new Engineer(
         data.engineername,
         data.engineerid,
@@ -86,7 +86,7 @@ const engineer = () => {
         data.engineergithub
       );
       employeesArray.push(newEngineer);
-      console.log(data);
+      // console.log(data);
       if (data.list === "Engineer") {
         engineer();
       } else if (data.list === "Intern") {
@@ -136,7 +136,7 @@ const intern = () => {
       },
     ])
     .then((data) => {
-      console.log(data);
+      //console.log(data);
       const newIntern = new Intern(
         data.internname,
         data.internid,
@@ -144,7 +144,7 @@ const intern = () => {
         data.internschool
       );
       employeesArray.push(newIntern);
-      console.log(data);
+      //console.log(data);
       if (data.list === "Engineer") {
         engineer();
       } else if (data.list === "Intern") {
@@ -191,7 +191,7 @@ const manager = () => {
 };
 
 manager().then((data) => {
-  console.log(data);
+  //console.log(data);
   const newManager = new Manager(
     data.managername,
     data.managerid,
@@ -199,7 +199,7 @@ manager().then((data) => {
     data.manageroffice
   );
   employeesArray.push(newManager);
-  console.log(data);
+  //console.log(data);
   switch (data.list) {
     case "Engineer":
       engineer();
