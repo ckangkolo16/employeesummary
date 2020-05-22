@@ -20,6 +20,15 @@ var employeesArray = [];
 // writeFileAsync("./output/team.html", html);
 //}
 
+//const html = function (data) {
+//const OUTPUT_DIR = path.resolve(__dirname, "output");
+//const outputPath = path.join(OUTPUT_DIR, "team.html");
+//fs.writeFile(outputPath, html, function (err) {
+//if (err) throw err;
+// console.log("Successfully wrote to team.html");
+// });
+//};
+
 const html = function (data) {
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR);
@@ -69,13 +78,14 @@ const engineer = () => {
       },
     ])
     .then((data) => {
+      console.log(data);
       const newEngineer = new Engineer(
-        data.name,
-        data.id,
-        data.email,
-        data.github
+        data.engineername,
+        data.engineerid,
+        data.engineeremail,
+        data.engineergithub
       );
-      employeesArray.push(engineer);
+      employeesArray.push(newEngineer);
       console.log(data);
       if (data.list === "Engineer") {
         engineer();
@@ -126,15 +136,21 @@ const intern = () => {
       },
     ])
     .then((data) => {
-      const newIntern = new Intern(data.name, data.id, data.email, data.github);
-      employeesArray.push(intern);
+      console.log(data);
+      const newIntern = new Intern(
+        data.intername,
+        data.internid,
+        data.internemail,
+        data.internschool
+      );
+      employeesArray.push(newIntern);
       console.log(data);
       if (data.list === "Engineer") {
         engineer();
       } else if (data.list === "Intern") {
         intern();
       } else {
-        html();
+        html(data);
       }
     });
 };
@@ -175,8 +191,14 @@ const manager = () => {
 };
 
 manager().then((data) => {
-  const newManager = new Manager(data.name, data.id, data.email, data.github);
-  employeesArray.push(manager);
+  console.log(data);
+  const newManager = new Manager(
+    data.managername,
+    data.managerid,
+    data.manageremail,
+    data.manageroffice
+  );
+  employeesArray.push(newManager);
   console.log(data);
   switch (data.list) {
     case "Engineer":
