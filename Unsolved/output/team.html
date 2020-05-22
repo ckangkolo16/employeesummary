@@ -1,0 +1,8 @@
+function (data) {
+  const OUTPUT_DIR = path.resolve(__dirname, "output");
+  const outputPath = path.join(OUTPUT_DIR, "team.html");
+  fs.writeFile(outputPath, html, function (err) {
+    if (err) throw err;
+    console.log("Successfully wrote to team.html");
+  });
+}

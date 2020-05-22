@@ -6,13 +6,14 @@ const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
 const util = require("util");
+
 const writeFileAsync = util.promisify(fs.writeFile);
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-let employees = [];
+var employeesArray = [];
 
 //async function myTeam(employees) {
 // const html = await team.html(employees);
@@ -20,12 +21,10 @@ let employees = [];
 //}
 
 const html = function (data) {
-  const OUTPUT_DIR = path.resolve(__dirname, "output");
-  const outputPath = path.join(OUTPUT_DIR, "team.html");
-  fs.writeFile(outputPath, html, function (err) {
-    if (err) throw err;
-    console.log("Successfully wrote to team.html");
-  });
+  if (!fs.existsSync(OUTPUT_DIR)) {
+    fs.mkdirSync(OUTPUT_DIR);
+  }
+  fs.writeFileSync(outputPath, render(employeesArray), "utf-8");
 };
 
 // Write code to use inquirer to gather information about the development team members,
@@ -71,19 +70,19 @@ const engineer = () => {
     ])
     .then((data) => {
       const newEngineer = new Engineer(
-        engineer.name,
-        engineer.id,
-        engineer.email,
-        engineer.github
+        data.name,
+        data.id,
+        data.email,
+        data.github
       );
-      employees.push(engineer);
+      employeesArray.push(engineer);
       console.log(data);
       if (data.list === "Engineer") {
         engineer();
       } else if (data.list === "Intern") {
         intern();
       } else {
-        console.log("complete");
+        html();
       }
     });
 };
@@ -127,20 +126,15 @@ const intern = () => {
       },
     ])
     .then((data) => {
-      const newIntern = new Intern(
-        intern.name,
-        intern.id,
-        intern.email,
-        intern.github
-      );
-      employees.push(intern);
+      const newIntern = new Intern(data.name, data.id, data.email, data.github);
+      employeesArray.push(intern);
       console.log(data);
       if (data.list === "Engineer") {
         engineer();
       } else if (data.list === "Intern") {
         intern();
       } else {
-        console.log("complete");
+        html();
       }
     });
 };
@@ -181,13 +175,8 @@ const manager = () => {
 };
 
 manager().then((data) => {
-  const newManager = new Manager(
-    manager.name,
-    manager.id,
-    manager.email,
-    manager.github
-  );
-  employees.push(manager);
+  const newManager = new Manager(data.name, data.id, data.email, data.github);
+  employeesArray.push(manager);
   console.log(data);
   switch (data.list) {
     case "Engineer":
@@ -197,8 +186,7 @@ manager().then((data) => {
       intern();
       break;
     default:
-      console.log("Complete");
-      break;
+      html();
   }
 });
 
