@@ -138,7 +138,7 @@ const intern = () => {
     .then((data) => {
       console.log(data);
       const newIntern = new Intern(
-        data.intername,
+        data.internname,
         data.internid,
         data.internemail,
         data.internschool
